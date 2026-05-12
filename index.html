@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DS — QCM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f4f1ec;--card:#ffffff;--primary:#14304a;--primary-mid:#1e4d6e;
+  --primary-light:#2a6f9a;--accent:#b5283c;--accent-light:#d4354d;
+  --success:#1a7a42;--success-bg:#e9f7ef;--warning:#d4920a;--warning-bg:#fef6e4;
+  --text:#1e2d3d;--text-mid:#4a5c6d;--text-light:#8296a7;
+  --border:#d0d5db;--border-light:#e8ebee;--hover:#eaf1f7;
+  --context-bg:#edf2f8;--context-border:#2a6f9a;
+  --shadow-sm:0 1px 4px rgba(0,0,0,.05);--shadow:0 4px 20px rgba(0,0,0,.07);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.12);
+  --radius:12px;--radius-sm:8px;--radius-lg:16px;
+}
+html{font-size:16px;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.65}
+@media print{html,body{display:none!important}}
+.screen{display:none;min-height:100vh}
+.screen.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
+#setup-screen{background:linear-gradient(160deg,#0f2b40 0%,#1a4060 40%,#1e5070 100%);position:relative;overflow:hidden}
+#setup-screen::before{content:'';position:absolute;top:-30%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.setup-card{background:var(--card);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:40px 38px 36px;max-width:480px;width:92%;position:relative;z-index:2;animation:cardIn .5s ease-out}
+@keyframes cardIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.lycee-badge{display:inline-block;background:var(--primary);color:#fff;font-size:.7rem;font-weight:700;padding:5px 16px;border-radius:20px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px}
+.setup-card h1{font-family:'Source Serif 4',serif;font-size:1.55rem;color:var(--primary);margin-bottom:2px;font-weight:700}
+.setup-card .subtitle{color:var(--text-light);font-size:.88rem;margin-bottom:28px}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:600;font-size:.8rem;color:var(--primary);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.field input,.field select{width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:.95rem;font-family:'DM Sans',sans-serif;color:var(--text);background:#fff;transition:border-color .2s,box-shadow .2s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(42,111,154,.12)}
+.field input::placeholder{color:var(--text-light)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field .hint{font-size:.75rem;color:var(--text-light);margin-top:3px}
+.password-wrapper{position:relative}
+.password-wrapper input{padding-right:44px}
+.toggle-pw{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-light);font-size:1.1rem;padding:4px;transition:color .2s}
+.toggle-pw:hover{color:var(--primary)}
+.duration-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}
+.duration-display{padding:12px 16px;border:2px solid var(--primary);border-radius:var(--radius-sm);text-align:center;font-size:1.1rem;font-weight:700;color:var(--primary);background:rgba(0,70,140,.06)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 32px;border:none;border-radius:var(--radius-sm);font-size:.95rem;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .2s;letter-spacing:.3px}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--primary);color:#fff;width:100%;margin-top:8px}
+.btn-primary:hover{background:var(--primary-mid);box-shadow:0 4px 16px rgba(20,48,74,.25)}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{background:var(--accent-light)}
+.error-msg{color:var(--accent);font-size:.82rem;font-weight:500;margin-top:10px;min-height:22px;text-align:center}
+.consignes{margin-top:20px;padding:14px 16px;background:#f8f6f3;border-radius:var(--radius-sm);border:1px solid var(--border-light)}
+.consignes summary{font-weight:700;font-size:.82rem;color:var(--primary);cursor:pointer;text-transform:uppercase;letter-spacing:.4px}
+.consignes ul{margin-top:10px;padding-left:18px;font-size:.82rem;color:var(--text-mid);line-height:1.8}
+#exam-screen{justify-content:flex-start;padding:0}
+.exam-header{position:sticky;top:0;z-index:100;width:100%;background:var(--primary);color:#fff;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.2);font-size:.85rem}
+.exam-header .student-info{opacity:.9;font-size:.8rem}
+.exam-header .timer{font-family:'JetBrains Mono',monospace;font-size:1.35rem;font-weight:700;letter-spacing:1px}
+.exam-header .timer.warning{color:#f5d742;animation:pulse 1s infinite}
+.exam-header .timer.critical{color:#ff6b6b;animation:pulse .5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.exam-body{max-width:800px;width:94%;margin:20px auto;padding-bottom:120px}
+.progress-bar{width:100%;height:5px;background:var(--border-light);border-radius:3px;margin-bottom:20px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary-light),var(--primary));border-radius:3px;transition:width .4s ease}
+.context-block{background:var(--context-bg);border-left:4px solid var(--context-border);border-radius:0 var(--radius) var(--radius) 0;padding:18px 22px;margin-bottom:20px;font-size:.9rem;line-height:1.75}
+.context-block .ctx-title{font-weight:700;color:var(--primary);margin-bottom:8px;font-size:.85rem;text-transform:uppercase;letter-spacing:.3px}
+.question-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid var(--border-light);padding:24px 26px;margin-bottom:16px;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.question-card .q-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.question-card .q-number{display:inline-block;background:var(--primary);color:#fff;font-size:.75rem;font-weight:700;padding:3px 12px;border-radius:20px}
+.q-timer{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;color:var(--primary);padding:4px 12px;border-radius:16px;background:rgba(0,70,140,.08);border:1px solid rgba(0,70,140,.15);transition:all .3s}
+.q-timer.q-timer-warning{color:#e6a117;background:rgba(230,161,23,.1);border-color:rgba(230,161,23,.3)}
+.q-timer.q-timer-expired{color:#dc3545;background:rgba(220,53,69,.1);border-color:rgba(220,53,69,.3);animation:pulse .8s infinite}
+.question-card .q-text{font-size:1rem;line-height:1.7;margin-bottom:18px}
+.choices-list{list-style:none}
+.choice-item{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:2px solid var(--border-light);border-radius:var(--radius-sm);margin-bottom:8px;cursor:pointer;transition:all .15s}
+.choice-item:hover{border-color:var(--primary-light);background:var(--hover)}
+.choice-item.selected{border-color:var(--primary);background:rgba(42,111,154,.08)}
+.choice-key{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:var(--text-mid);transition:all .15s}
+.choice-item.selected .choice-key{border-color:var(--primary);background:var(--primary);color:#fff}
+.choice-text{padding-top:3px;font-size:.93rem;line-height:1.5}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border-light);box-shadow:0 -4px 20px rgba(0,0,0,.06);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;z-index:100}
+.nav-bar .btn{padding:10px 24px;font-size:.88rem}
+.btn-outline{background:transparent;border:2px solid var(--border);color:var(--text-mid)}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary);background:var(--hover)}
+.btn-submit-main{background:var(--success);color:#fff;padding:10px 20px;font-size:.85rem;position:fixed;bottom:70px;right:20px;z-index:101;border-radius:var(--radius-sm);box-shadow:var(--shadow)}
+.btn-submit-main:hover{background:#1a8a48}
+.q-grid{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:400px}
+.q-dot{width:30px;height:30px;border-radius:6px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:600;color:var(--text-light);cursor:pointer;transition:all .15s;background:#fff}
+.q-dot:hover{border-color:var(--primary);color:var(--primary)}
+.q-dot.current{border-color:var(--primary);background:var(--primary);color:#fff}
+.q-dot.answered{border-color:var(--primary-light);background:rgba(42,111,154,.1);color:var(--primary)}
+#confirm-overlay{display:none;position:fixed;inset:0;z-index:8888;background:rgba(15,20,30,.7);flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+#confirm-overlay.active{display:flex}
+.confirm-card{background:var(--card);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:32px 36px;max-width:440px;width:90%;text-align:center;animation:cardIn .3s ease-out}
+.confirm-card .confirm-icon{font-size:2.8rem;margin-bottom:10px}
+.confirm-card h3{font-family:'Source Serif 4',serif;font-size:1.2rem;color:var(--primary);margin-bottom:8px}
+.confirm-card p{color:var(--text-mid);font-size:.9rem;line-height:1.6;margin-bottom:6px}
+.confirm-card .confirm-warning{color:var(--accent);font-weight:600;font-size:.88rem;margin:12px 0 20px}
+.confirm-buttons{display:flex;gap:10px;justify-content:center}
+.confirm-buttons .btn{padding:11px 28px;font-size:.9rem}
+.btn-cancel{background:#eee;color:var(--text-mid)}
+.btn-cancel:hover{background:#ddd}
+.btn-confirm-submit{background:var(--accent);color:#fff}
+.btn-confirm-submit:hover{background:var(--accent-light)}
+#blocked-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,20,30,.95);flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;backdrop-filter:blur(10px)}
+#blocked-overlay.active{display:flex}
+#blocked-overlay .blocked-icon{font-size:4rem;margin-bottom:16px}
+#blocked-overlay h2{font-family:'Source Serif 4',serif;font-size:1.6rem;margin-bottom:8px;color:#ff6b6b}
+#blocked-overlay p{color:rgba(255,255,255,.7);font-size:.95rem;margin-bottom:24px;max-width:400px;line-height:1.6}
+#blocked-overlay input{padding:12px 18px;border:2px solid rgba(255,255,255,.2);border-radius:var(--radius-sm);background:rgba(255,255,255,.08);color:#fff;font-size:1rem;font-family:'JetBrains Mono',monospace;text-align:center;width:240px;letter-spacing:2px}
+#blocked-overlay input:focus{outline:none;border-color:rgba(255,255,255,.5)}
+#blocked-overlay .blocked-error{color:#ff6b6b;font-size:.82rem;margin-top:8px;min-height:20px}
+.violations-badge{position:absolute;top:16px;right:20px;background:rgba(255,100,100,.2);color:#ff6b6b;padding:4px 12px;border-radius:12px;font-size:.78rem;font-weight:600}
+#end-screen{background:linear-gradient(160deg,#0f2b40 0%,#1a4060 40%,#1e5070 100%)}
+.end-card{background:var(--card);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:48px 40px;max-width:480px;width:92%;text-align:center;animation:cardIn .5s ease-out}
+.end-card .end-icon{font-size:3.5rem;margin-bottom:12px}
+.end-card h2{font-family:'Source Serif 4',serif;font-size:1.4rem;color:var(--primary);margin-bottom:8px}
+.end-card p{color:var(--text-mid);font-size:.92rem;line-height:1.6}
+.end-card .end-info{margin-top:20px;padding:14px;background:#f8f6f3;border-radius:var(--radius-sm);font-size:.82rem;color:var(--text-light)}
+.code-block{background:#1e2d3d;color:#e6edf3;padding:14px 18px;border-radius:var(--radius-sm);font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:1.7;overflow-x:auto;margin:10px 0;white-space:pre}
+.code-block code{font-family:inherit;font-size:inherit;color:inherit;background:none;padding:0}
+.inline-code{background:#eef1f5;color:#1e2d3d;padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.88em}
+.katex{font-size:1em!important}
+.q-text .katex,.choice-text .katex{font-size:1.05em!important}
+.context-block .katex{font-size:.95em!important}
+.katex-display{margin:.6em 0!important}
+@media(max-width:600px){
+  .setup-card{padding:28px 22px 24px}
+  .setup-card h1{font-size:1.3rem}
+  .field-row{grid-template-columns:1fr}
+  .duration-grid{grid-template-columns:repeat(2,1fr)}
+  .exam-header{padding:8px 14px;font-size:.78rem}
+  .exam-header .timer{font-size:1.1rem}
+  .question-card{padding:18px 16px}
+  .nav-bar{padding:10px 12px}
+  .q-dot{width:26px;height:26px;font-size:.65rem}
+}
+</style>
+</head>
+<body>
+
+<script>
+const EXAM_DATA = {
+  "title": "QCM",
+  "subtitle": "TSpé 2",
+  "institution": "Lycée International Le Détroit",
+  "year": "2025-2026",
+  "password": "qcm1400",
+  "teacherCode": "prof2026",
+  "scoring": {
+    "correct": 1,
+    "wrong": -0.25,
+    "blank": 0,
+    "total": 30
+  },
+  "webhookUrl": "https://script.google.com/macros/s/AKfycbzCOMsHwPP-wR-MOTNpFo6iePJ-PMNedN0lS53Sd4Z11hxF74YKwDdFh3dEENA6BeDB/exec",
+  "duration": 110,
+  "tempsQuestion": 0,
+  "questions": [
+    {
+      "id": 1,
+      "text": "La valeur de $\\displaystyle\\int_0^1 \\dfrac{2x}{x^2 + 1}\\,\\mathrm{d}x$ est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$\\ln 2$"
+        },
+        {
+          "key": "b",
+          "text": "$\\ln 3$"
+        },
+        {
+          "key": "c",
+          "text": "$1$"
+        },
+        {
+          "key": "d",
+          "text": "$\\dfrac{1}{2}$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$\\displaystyle\\int_0^1 \\dfrac{2x}{x^2 + 1}\\,\\mathrm{d}x = \\left[\\ln(x^2 + 1)\\right]_0^1 = \\ln 2 - \\ln 1 = \\ln 2$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 2,
+      "text": "Dans une entreprise, le salaire mensuel $S$ (en k€) d'un employé choisi au hasard suit la loi :<br>$$\\begin{array}{|c|c|c|c|} \\hline s_i & 1{,}5 & 2 & 3{,}5 \\\\ \\hline P(S=s_i) & 0{,}6 & 0{,}3 & 0{,}1 \\\\ \\hline \\end{array}$$<br>L'entreprise augmente tous les salaires de $200$ € (soit $0{,}2$ k€). Le nouveau salaire moyen est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$2{,}05$ k€"
+        },
+        {
+          "key": "b",
+          "text": "$1{,}85$ k€"
+        },
+        {
+          "key": "c",
+          "text": "$2{,}25$ k€"
+        },
+        {
+          "key": "d",
+          "text": "$2$ k€"
+        },
+        {
+          "key": "e",
+          "text": "$2{,}15$ k€"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$E(S) = 1{,}5 \\times 0{,}6 + 2 \\times 0{,}3 + 3{,}5 \\times 0{,}1 = 0{,}9 + 0{,}6 + 0{,}35 = 1{,}85$ k€.<br>Nouveau salaire $= S + 0{,}2$, donc $E(S + 0{,}2) = E(S) + 0{,}2 = 2{,}05$ k€.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 3,
+      "text": "L'espérance $E(X)$ est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$1{,}7$"
+        },
+        {
+          "key": "b",
+          "text": "$1{,}5$"
+        },
+        {
+          "key": "c",
+          "text": "$2$"
+        },
+        {
+          "key": "d",
+          "text": "$1{,}2$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$E(X) = (-1) \\times 0{,}1 + 0 \\times 0{,}3 + 2 \\times 0{,}4 + 5 \\times 0{,}2 = -0{,}1 + 0 + 0{,}8 + 1 = 1{,}7$.",
+      "contextTitle": "",
+      "contextContent": "On considère une variable aléatoire $X$ dont la loi de probabilité est donnée par :<br>$$\\begin{array}{|c|c|c|c|c|} \\hline x_i & -1 & 0 & 2 & 5 \\\\ \\hline P(X = x_i) & 0{,}1 & 0{,}3 & 0{,}4 & 0{,}2 \\\\ \\hline \\end{array}$$",
+      "hints": []
+    },
+    {
+      "id": 4,
+      "text": "Soit $y$ la solution de $y' = -5y + 15$ vérifiant $y(0) = 1$. Alors :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$y$ est décroissante et $\\displaystyle\\lim_{x \\to +\\infty} y(x) = 3$"
+        },
+        {
+          "key": "b",
+          "text": "$y$ est croissante et $\\displaystyle\\lim_{x \\to +\\infty} y(x) = 3$"
+        },
+        {
+          "key": "c",
+          "text": "$y$ est croissante et $\\displaystyle\\lim_{x \\to +\\infty} y(x) = +\\infty$"
+        },
+        {
+          "key": "d",
+          "text": "$y$ est décroissante et $\\displaystyle\\lim_{x \\to +\\infty} y(x) = 0$"
+        }
+      ],
+      "answer": "b",
+      "explanation": "$y(x) = -2\\mathrm{e}^{-5x} + 3$. $y'(0) = -5(1) + 15 = 10 > 0$. $y'(x) = 10\\mathrm{e}^{-5x} > 0$ pour tout $x$, donc $y$ est croissante. $\\displaystyle\\lim_{x \\to +\\infty} y(x) = 3$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 5,
+      "text": "Le nombre d'anagrammes du mot <strong>BAOBAB</strong> est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$60$"
+        },
+        {
+          "key": "b",
+          "text": "$720$"
+        },
+        {
+          "key": "c",
+          "text": "$180$"
+        },
+        {
+          "key": "d",
+          "text": "$90$"
+        },
+        {
+          "key": "e",
+          "text": "$360$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "BAOBAB a $6$ lettres : B apparaît $3$ fois, A apparaît $2$ fois, O apparaît $1$ fois.<br>Nombre d'anagrammes : $\\dfrac{6!}{3! \\times 2! \\times 1!} = \\dfrac{720}{6 \\times 2} = \\dfrac{720}{12} = 60$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 6,
+      "text": "La valeur de $\\displaystyle\\int_1^{\\mathrm{e}} \\dfrac{1}{x}\\,\\mathrm{d}x$ est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$1$"
+        },
+        {
+          "key": "b",
+          "text": "$\\mathrm{e}$"
+        },
+        {
+          "key": "c",
+          "text": "$0$"
+        },
+        {
+          "key": "d",
+          "text": "$\\ln 2$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$\\displaystyle\\int_1^{\\mathrm{e}} \\dfrac{1}{x}\\,\\mathrm{d}x = \\left[\\ln x\\right]_1^{\\mathrm{e}} = \\ln(\\mathrm{e}) - \\ln(1) = 1 - 0 = 1$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 7,
+      "text": "Soit $X$ une variable aléatoire d'espérance $\\mu = 10$ et de variance $\\sigma^2 = 4$. D'après l'inégalité de Bienaymé-Tchebychev, on peut affirmer que :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$P(|X - 10| \\geqslant 3) \\leqslant \\dfrac{4}{9}$"
+        },
+        {
+          "key": "b",
+          "text": "$P(6 < X < 14) \\geqslant \\dfrac{3}{4}$"
+        },
+        {
+          "key": "c",
+          "text": "$P(|X - 10| < 2) \\geqslant 0$"
+        },
+        {
+          "key": "d",
+          "text": "Les propositions a) et b) sont toutes les deux correctes"
+        },
+        {
+          "key": "e",
+          "text": "Autre"
+        }
+      ],
+      "answer": "a",
+      "explanation": "<strong>Réponse : d)</strong>\\; Les propositions a) et b) sont toutes les deux correctes<br>Avec $\\mu = 10$ et $\\sigma^2 = 4$ :<br>a) $P(|X-10| \\geqslant 3) \\leqslant \\frac{4}{9}$ ✓\\; (Tchebychev avec $h=3$)<br>b) $P(6 < X < 14) \\geqslant \\frac{3}{4}$ ✓\\; (Tchebychev avec $h=4$ : $P(|X-10|<4) \\geqslant 1-\\frac{4}{16} = \\frac{3}{4}$)<br>c) $P(|X-10| < 2) \\geqslant 0$ : trivial (toute probabilité est $\\geqslant 0$), ce n'est pas un vrai résultat de Tchebychev ($1-\\frac{4}{4}=0$, inégalité non informative).<br><strong>Donc a) et b) sont correctes : réponse d).</strong>",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 8,
+      "text": "La solution de $y' = y$ vérifiant $y(0) = 1$ est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$y(x) = \\mathrm{e}^x$"
+        },
+        {
+          "key": "b",
+          "text": "$y(x) = x$"
+        },
+        {
+          "key": "c",
+          "text": "$y(x) = \\mathrm{e}^{-x}$"
+        },
+        {
+          "key": "d",
+          "text": "$y(x) = x\\mathrm{e}^x$"
+        },
+        {
+          "key": "e",
+          "text": "$y(x) = 1$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$y' = y$ est l'ED $y' = ay$ avec $a = 1$. Solution générale : $y(x) = C\\mathrm{e}^x$.<br>$y(0) = 1 \\Rightarrow C = 1$. Donc $y(x) = \\mathrm{e}^x$.<br>La fonction exponentielle est l'unique fonction égale à sa propre dérivée et valant $1$ en $0$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 9,
+      "text": "L'inégalité de Bienaymé-Tchebychev $P(|X - \\mu| \\geqslant \\delta) \\leqslant \\dfrac{V(X)}{\\delta^2}$ est valable :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "Uniquement si $X$ suit une loi normale"
+        },
+        {
+          "key": "b",
+          "text": "Uniquement si $X$ suit une loi binomiale"
+        },
+        {
+          "key": "c",
+          "text": "Pour toute variable aléatoire $X$ admettant une espérance et une variance"
+        },
+        {
+          "key": "d",
+          "text": "Uniquement si $\\delta > \\sigma$"
+        },
+        {
+          "key": "e",
+          "text": "Uniquement si $X$ prend des valeurs positives"
+        }
+      ],
+      "answer": "c",
+      "explanation": "L'inégalité de Bienaymé-Tchebychev est un résultat <strong>universel</strong> : elle s'applique à toute variable aléatoire admettant une espérance et une variance finies, quelle que soit sa loi de probabilité.<br>C'est sa grande force : elle ne nécessite aucune hypothèse sur la forme de la distribution.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 10,
+      "text": "Soit $X$ une variable aléatoire de loi :<br>$$\\begin{array}{|c|c|c|c|} \\hline x_i & -1 & 0 & 2 \\\\ \\hline P(X=x_i) & 0{,}25 & 0{,}5 & 0{,}25 \\\\ \\hline \\end{array}$$<br>La valeur de $E(X^2)$ est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$1{,}25$"
+        },
+        {
+          "key": "b",
+          "text": "$0{,}25$"
+        },
+        {
+          "key": "c",
+          "text": "$0{,}0625$"
+        },
+        {
+          "key": "d",
+          "text": "$5$"
+        },
+        {
+          "key": "e",
+          "text": "$1$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$E(X^2) = (-1)^2 \\times 0{,}25 + 0^2 \\times 0{,}5 + 2^2 \\times 0{,}25 = 0{,}25 + 0 + 1 = 1{,}25$.<br>Attention : $E(X^2) \\neq [E(X)]^2$. Ici $E(X) = 0{,}25$ et $[E(X)]^2 = 0{,}0625$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 11,
+      "text": "Soit $X$ une variable aléatoire telle que $E(X) = 5$ et $V(X) = 4$. L'écart-type $\\sigma(X)$ est égal à :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$2$"
+        },
+        {
+          "key": "b",
+          "text": "$4$"
+        },
+        {
+          "key": "c",
+          "text": "$16$"
+        },
+        {
+          "key": "d",
+          "text": "$\\sqrt{5}$"
+        },
+        {
+          "key": "e",
+          "text": "$1$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "L'écart-type est la racine carrée de la variance : $\\sigma(X) = \\sqrt{V(X)} = \\sqrt{4} = 2$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 12,
+      "text": "La somme  $\\sum_{k=0}^{5} \\binom{5}{k}$ est égale à :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$2^5$"
+        },
+        {
+          "key": "b",
+          "text": "$5!$"
+        },
+        {
+          "key": "c",
+          "text": "$5^2$"
+        },
+        {
+          "key": "d",
+          "text": "$2\\times5$"
+        },
+        {
+          "key": "e",
+          "text": "$\\binom{10}{5}$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "D'après la formule du binôme de Newton avec $a = b = 1$ :<br>$(1+1)^5 = \\sum_{k=0}^{5} \\binom{5}{k} 1^k \\cdot 1^{5-k} = \\sum_{k=0}^{5} \\binom{5}{k} = 2^5$.<br>Interprétation : c'est le nombre total de parties d'un ensemble à $n$ éléments.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 13,
+      "text": "Soit $f(x) = x^2\\ln(x)$ définie sur $]0\\,;+\\infty[$. Le point d'inflexion de $\\mathcal{C}_f$ a pour abscisse :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$\\mathrm{e}$"
+        },
+        {
+          "key": "b",
+          "text": "$\\dfrac{1}{\\sqrt{\\mathrm{e}}}$"
+        },
+        {
+          "key": "c",
+          "text": "$1$"
+        },
+        {
+          "key": "d",
+          "text": "$\\mathrm{e}^{-3/2}$"
+        },
+        {
+          "key": "e",
+          "text": "Autre"
+        }
+      ],
+      "answer": "d",
+      "explanation": "$f'(x) = 2x\\ln(x) + x$, donc $f''(x) = 2\\ln(x) + 2 + 1 = 2\\ln(x) + 3$.<br>$f''(x) = 0 \\Leftrightarrow \\ln(x) = -\\dfrac{3}{2} \\Leftrightarrow x = \\mathrm{e}^{-3/2}$.<br>On vérifie le changement de signe : $f''(x) < 0$ pour $x < \\mathrm{e}^{-3/2}$ et $f''(x) > 0$ pour $x > \\mathrm{e}^{-3/2}$. ✓<br><strong>Piège :</strong> $x = 1$ donne $f''(1) = 3 \\neq 0$. La proposition $1/\\sqrt{\\mathrm{e}} = \\mathrm{e}^{-1/2}$ vient d'une erreur de calcul sur les coefficients.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 14,
+      "text": "Parmi ces inégalités, laquelle est l'inégalité de Markov ?",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$P(X \\geqslant a) \\leqslant \\dfrac{E(X)}{a}$ pour $X \\geqslant 0$ et $a > 0$"
+        },
+        {
+          "key": "b",
+          "text": "$P(|X - \\mu| \\geqslant \\delta) \\leqslant \\dfrac{V(X)}{\\delta^2}$"
+        },
+        {
+          "key": "c",
+          "text": "$P(|M_n - \\mu| \\geqslant \\delta) \\leqslant \\dfrac{\\sigma^2}{n\\delta^2}$"
+        },
+        {
+          "key": "d",
+          "text": "$P(X \\geqslant a) \\leqslant e^{-2na^2}$"
+        },
+        {
+          "key": "e",
+          "text": "$P(X \\leqslant a) \\geqslant 1 - \\dfrac{E(X)}{a}$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "L'inégalité de Markov s'énonce : pour $X \\geqslant 0$ et $a > 0$, $P(X \\geqslant a) \\leqslant \\dfrac{E(X)}{a}$.<br>b) est l'inégalité de Bienaymé-Tchebychev (qui se démontre à partir de Markov).<br>c) est l'inégalité de concentration.<br>L'inégalité de Markov est la plus élémentaire des trois.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 15,
+      "text": "On forme un comité de 4 personnes parmi 12 candidats. Le nombre de comités possibles est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$495$"
+        },
+        {
+          "key": "b",
+          "text": "$11\\,880$"
+        },
+        {
+          "key": "c",
+          "text": "$48$"
+        },
+        {
+          "key": "d",
+          "text": "$248$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$\\displaystyle\\binom{12}{4} = \\dfrac{12!}{4!\\,8!} = 495$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 16,
+      "text": "Sur un quadrillage, on se déplace du point $A(0\\,;\\,0)$ au point $B(4\\,;\\,3)$ en effectuant uniquement des pas vers la droite ou vers le haut. Le nombre de chemins possibles est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$35$"
+        },
+        {
+          "key": "b",
+          "text": "$12$"
+        },
+        {
+          "key": "c",
+          "text": "$7$"
+        },
+        {
+          "key": "d",
+          "text": "$210$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Il faut effectuer 4 pas vers la droite et 3 pas vers le haut, soit 7 pas au total. On choisit les 3 pas vers le haut parmi 7 : $\\displaystyle\\binom{7}{3} = 35$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 17,
+      "text": "La solution de $y' = -y + 5$ avec $y(0) = 10$ passe par $y = 6$ à l'instant :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$t = \\ln 5 \\approx 1{,}61$"
+        },
+        {
+          "key": "b",
+          "text": "$t = \\ln 2 \\approx 0{,}69$"
+        },
+        {
+          "key": "c",
+          "text": "$t = 5$"
+        },
+        {
+          "key": "d",
+          "text": "$t = 1$"
+        },
+        {
+          "key": "e",
+          "text": "$t = \\ln 6 \\approx 1{,}79$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$y(t) = 5\\mathrm{e}^{-t} + 5$ (car $y_p = 5$, $C = 10 - 5 = 5$).<br>$y(t) = 6 \\Rightarrow 5\\mathrm{e}^{-t} + 5 = 6 \\Rightarrow \\mathrm{e}^{-t} = 1/5 \\Rightarrow t = \\ln 5$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 18,
+      "text": "On considère $I = \\displaystyle\\int_0^1 \\mathrm{e}^x\\,\\mathrm{d}x$. Sachant que la fonction exponentielle est croissante sur $[0\\,;1]$, un encadrement de $I$ est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$1 \\leqslant I \\leqslant \\mathrm{e}$"
+        },
+        {
+          "key": "b",
+          "text": "$0 \\leqslant I \\leqslant 1$"
+        },
+        {
+          "key": "c",
+          "text": "$\\mathrm{e} \\leqslant I \\leqslant \\mathrm{e}^2$"
+        },
+        {
+          "key": "d",
+          "text": "$\\dfrac{1}{2} \\leqslant I \\leqslant \\dfrac{\\mathrm{e}}{2}$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Sur $[0\\,;1]$, $\\mathrm{e}^0 \\leqslant \\mathrm{e}^x \\leqslant \\mathrm{e}^1$, soit $1 \\leqslant \\mathrm{e}^x \\leqslant \\mathrm{e}$. En intégrant sur $[0\\,;1]$ : $1 \\times (1-0) \\leqslant I \\leqslant \\mathrm{e} \\times (1-0)$, d'où $1 \\leqslant I \\leqslant \\mathrm{e}$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 19,
+      "text": "Soit $f$ la solution de $y' = -2y + 4\\mathrm{e}^{-2x}$.  Soit une solution particulière sous la forme $y_p = Cx\\mathrm{e}^{-2x}$, la valeur de $C$ est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$C = 4$"
+        },
+        {
+          "key": "b",
+          "text": "$C = 2$"
+        },
+        {
+          "key": "c",
+          "text": "$C = -4$"
+        },
+        {
+          "key": "d",
+          "text": "$C = -2$"
+        },
+        {
+          "key": "e",
+          "text": "$C = 1$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$y_p = Cx\\mathrm{e}^{-2x}$, $y_p' = C\\mathrm{e}^{-2x} - 2Cx\\mathrm{e}^{-2x} = C(1-2x)\\mathrm{e}^{-2x}$.<br>$y_p' + 2y_p = C(1-2x)\\mathrm{e}^{-2x} + 2Cx\\mathrm{e}^{-2x} = C\\mathrm{e}^{-2x} = 4\\mathrm{e}^{-2x}$.<br>Donc $C = 4$.<br><strong>Note :</strong> cette ED n'est pas au programme strict de terminale mais peut apparaître en exercice guidé.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 20,
+      "text": "La solution de l'équation $\\ln(x) = 3$ est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$x = 3\\mathrm{e}$"
+        },
+        {
+          "key": "b",
+          "text": "$x = \\mathrm{e}^3$"
+        },
+        {
+          "key": "c",
+          "text": "$x = \\dfrac{1}{3}$"
+        },
+        {
+          "key": "d",
+          "text": "$x = \\ln(3)$"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Par définition, $\\ln(x) = 3 \\Leftrightarrow x = \\mathrm{e}^3$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 21,
+      "text": "Soit $y(x) = 5\\mathrm{e}^{-3x} + 2$. Cette fonction est solution de l'équation différentielle :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$y' = -3y + 6$"
+        },
+        {
+          "key": "b",
+          "text": "$y' = -3y + 2$"
+        },
+        {
+          "key": "c",
+          "text": "$y' = 3y - 6$"
+        },
+        {
+          "key": "d",
+          "text": "$y' = -3y - 6$"
+        },
+        {
+          "key": "e",
+          "text": "$y' = -3y$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$y'(x) = -15\\mathrm{e}^{-3x}$.<br>$-3y + 6 = -3(5\\mathrm{e}^{-3x} + 2) + 6 = -15\\mathrm{e}^{-3x} - 6 + 6 = -15\\mathrm{e}^{-3x} = y'$. ✓<br>Méthode rapide : si $y(x) = C\\mathrm{e}^{ax} + y_p$, l'ED est $y' = ay + b$ avec $b = -ay_p = -(-3)(2) = 6$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 22,
+      "text": "$\\displaystyle\\int_1^{\\mathrm{e}} \\dfrac{1}{x}\\,\\mathrm{d}x$ est égale à :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$0$"
+        },
+        {
+          "key": "b",
+          "text": "$1$"
+        },
+        {
+          "key": "c",
+          "text": "$\\mathrm{e} - 1$"
+        },
+        {
+          "key": "d",
+          "text": "$\\dfrac{1}{\\mathrm{e}}$"
+        }
+      ],
+      "answer": "b",
+      "explanation": "$\\displaystyle\\int_1^{\\mathrm{e}} \\dfrac{1}{x}\\,\\mathrm{d}x = \\Big[\\ln(x)\\Big]_1^{\\mathrm{e}} = \\ln(\\mathrm{e}) - \\ln(1) = 1 - 0 = 1$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 23,
+      "text": "$\\displaystyle\\lim_{x \\to +\\infty} \\dfrac{\\ln(x)}{x}$ est égale à :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$+\\infty$"
+        },
+        {
+          "key": "b",
+          "text": "$1$"
+        },
+        {
+          "key": "c",
+          "text": "$0$"
+        },
+        {
+          "key": "d",
+          "text": "$-\\infty$"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Croissance comparée : $\\displaystyle\\lim_{x \\to +\\infty} \\dfrac{\\ln(x)}{x} = 0$. L'exponentielle (et donc la fonction puissance) l'emporte sur le logarithme.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 24,
+      "text": "$\\displaystyle\\int_0^1 \\dfrac{\\mathrm{e}^x}{\\mathrm{e}^x + 1}\\,\\mathrm{d}x$ est égale à :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$\\ln\\!\\left(\\dfrac{\\mathrm{e}+1}{2}\\right)$"
+        },
+        {
+          "key": "b",
+          "text": "$\\ln(\\mathrm{e}+1)$"
+        },
+        {
+          "key": "c",
+          "text": "$1 - \\ln 2$"
+        },
+        {
+          "key": "d",
+          "text": "$\\dfrac{1}{2}$"
+        },
+        {
+          "key": "e",
+          "text": "$\\ln(\\mathrm{e}) = 1$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "On reconnaît $\\dfrac{u'}{u}$ avec $u = \\mathrm{e}^x + 1$, $u' = \\mathrm{e}^x$.<br>$\\int_0^1 \\dfrac{\\mathrm{e}^x}{\\mathrm{e}^x+1}\\,\\mathrm{d}x = [\\ln(\\mathrm{e}^x+1)]_0^1 = \\ln(\\mathrm{e}+1) - \\ln 2 = \\ln\\!\\left(\\dfrac{\\mathrm{e}+1}{2}\\right)$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 25,
+      "text": "Soit $f$ définie sur $\\mathbb{R}$ par $f(x) = \\ln(x^2 + 1)$. Alors $f'(x)$ est égale à :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$\\dfrac{1}{x^2+1}$"
+        },
+        {
+          "key": "b",
+          "text": "$\\dfrac{2x}{x^2+1}$"
+        },
+        {
+          "key": "c",
+          "text": "$\\dfrac{x}{x^2+1}$"
+        },
+        {
+          "key": "d",
+          "text": "$\\dfrac{2}{x^2+1}$"
+        }
+      ],
+      "answer": "b",
+      "explanation": "On pose $u(x) = x^2 + 1$, $u'(x) = 2x$. Alors $f'(x) = \\dfrac{u'(x)}{u(x)} = \\dfrac{2x}{x^2+1}$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 26,
+      "text": "On considère la suite $S_n = X_1 + \\cdots + X_{n}$ où les $X_i$ sont indépendantes et identiques  avec $E(X_i) = 2$ et $\\sigma(X_i) = 3$. $\\\\$ La variable $Z_{10} = \\dfrac{S_{10} - 20}{3\\sqrt{10}}$ vérifie :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$E(Z_{10}) = 0$ et $V(Z_{10}) = 1$"
+        },
+        {
+          "key": "b",
+          "text": "$E(Z_{10}) = 2$ et $V(Z_{10}) = 9$"
+        },
+        {
+          "key": "c",
+          "text": "$E(Z_{10}) = 0$ et $V(Z_{10}) = {10}$"
+        },
+        {
+          "key": "d",
+          "text": "autre"
+        },
+        {
+          "key": "e",
+          "text": "$E(Z_{10}) = 1$ et $V(Z_{10}) = 1$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$E(S_{10}) = {10}E(X_i) = 2\\times {10} = 10$ et $V(S_{10}) = {10}V(X_i) = 9\\times {10}=90$.\n<br>$Z_{10} = \\dfrac{S_{10} - E(S_{10})}{\\sqrt{V(S_{10})}} = \\dfrac{S_{10} - 20}{3\\sqrt{{10}}}$.<br>Ainsi : $E(Z_n) = E(\\dfrac{S_{10} - 20}{3\\sqrt{{10}}}) = \\dfrac{E(S_{10}) - 20}{3\\sqrt{{10}}} = \\dfrac{20 - 20}{3\\sqrt{{10}}}=0$ <br> <br> et \n$V(Z_n) = V(\\dfrac{S_{10} - 20}{3\\sqrt{{10}}}) = \\dfrac{V(S_{10})}{(3\\sqrt{{10}})^2} =\\dfrac{90}{(3\\sqrt{{10}})^2} = 1$.<br>",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 27,
+      "text": "On dispose de quatre boules numérotées de 1 à 4 que l'on souhaite répartir dans trois boîtes distinctes A, B et C. De combien de manières peut-on effectuer cette répartition de sorte qu’aucune boîte ne soit vide ?",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$36$"
+        },
+        {
+          "key": "b",
+          "text": "$81$"
+        },
+        {
+          "key": "c",
+          "text": "$24$"
+        },
+        {
+          "key": "d",
+          "text": "$12$"
+        },
+        {
+          "key": "e",
+          "text": "$64$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "On procède par étapes :\n<br> Étape 1 : <br>\nChoix de la boîte qui contiendra deux boules :\nIl y a 3 choix possibles (soit la boîte A, soit la B, soit la C). Soit $3$ possibilités.\n<br> Étape 2 : <br>Choix des deux boules à mettre dans cette boîte :\nOn choisit 2 boules parmi les 4 disponibles. Le nombre de combinaisons est : 6\n<br> Étape 3 : <br>Répartition des deux boules restantes :\nIl reste 2 boules pour 2 boîtes (une par boîte). Pour la première boîte vide restante, on a 2 choix de boules, et pour la dernière, 1 seul. Soit $2! = 2$ possibilités.\n<br> Étape 4 : <br>\nOn multiplie toutes les possibilités : $ 3×6×2=36 $",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 28,
+      "text": "On considère la variable aléatoire $X$ d'espérance $100$ et de variance $356$. La probabilité que $X$ soit strictement comprise entre $60$ et $140$ est supérieure à :  ",
+      "choices": [
+        {
+          "key": "a",
+          "text": "0.77"
+        },
+        {
+          "key": "b",
+          "text": "0.87"
+        },
+        {
+          "key": "c",
+          "text": "0.97"
+        },
+        {
+          "key": "d",
+          "text": "0.84"
+        },
+        {
+          "key": "e",
+          "text": "aucune réponse"
+        }
+      ],
+      "answer": "a",
+      "explanation": "On a $E(X) = 100 $  et $V(X) = 356$ :<br> \nAinsi : $P(60 < X < 140) = P(60-100 < X -100 < 140 -100) = P(|X-100| < 40) =  1 - P(|X-10| \\geqslant  40) $ \n<br>\nOr d'après Tchebychev  : $ P(|X-10| \\geqslant   40) \\leqslant \\frac{V(X)}{40^2}=0.2225$.\n<br>\nDonc : $ 1-P(|X-10| \\geqslant   40) \\geqslant 1-0.2225$.\n<br>\nAinsi : $P(60 < X < 140)\\geqslant 0.7775 \\geqslant 0.77$\n<br>",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 29,
+      "text": "Soit $f(x) = 3x^2 - 2x + 1$. La primitive $F$ de $f$ sur $\\mathbb{R}$ vérifiant $F(0) = 2$ est telle que $F(1)$ vaut :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "$3$"
+        },
+        {
+          "key": "b",
+          "text": "$2$"
+        },
+        {
+          "key": "c",
+          "text": "$4$"
+        },
+        {
+          "key": "d",
+          "text": "$1$"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$F(x) = x^3 - x^2 + x + C$. $F(0) = 2$ donne $C = 2$. Donc $F(x) = x^3 - x^2 + x + 2$ et $F(1) = 1 - 1 + 1 + 2 = 3$.",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    },
+    {
+      "id": 30,
+      "text": "On considère les variables aléatoires $X_1, X_2, ... , X_n $ indépendantes et suivants une même loi binomiale $X$ de paramètres $n=20$ et $p=0.85$. On pose $M_n= \\frac{X_1+X_2+...+ X_n}{n} $ <br>\nLa taille minimale $n$ pour que $M_n$ appartienne à l’intervalle $]0,75; 0,95[$ avec une probabilité supérieure à $0,9$ est :",
+      "choices": [
+        {
+          "key": "a",
+          "text": "128"
+        },
+        {
+          "key": "b",
+          "text": "118"
+        },
+        {
+          "key": "c",
+          "text": "108"
+        },
+        {
+          "key": "d",
+          "text": "98"
+        },
+        {
+          "key": "e",
+          "text": "aucune réponse"
+        }
+      ],
+      "answer": "a",
+      "explanation": "On a $E(M_n) = 0.85 $  et $V(M_n) = \\frac{0.1275}{n}$ :<br> \nAinsi : $P(0.75 < M_n < 0.95) = P(0.75-0.85 < M_n -0.85 < 0.95 -0.85) = P(|M_n-0.85| < 0.1) =  1 - P(|X-10| \\geqslant  0.1) $ \n<br>\nOr d'après Tchebychev  : $ P(|M_n-10| \\geqslant   40) \\leqslant \\frac{V(M_n)}{0.1^2}=\\frac{12.75}{n}$.\n<br>\nDonc : $ 1-P(|M_n-10| \\geqslant   0.1) \\geqslant 1-\\frac{12.75}{n}$.\n<br>\nAinsi : $P(0.75 < M_n < 0.95)\\geqslant 1-\\frac{12.75}{n} $. Ainsi il suffit que : $1-\\frac{12.75}{n} \\geqslant 0.9$ , donc $n \\geqslant  127.5 $ , ainsi à partir de $n=128$.\n<br>",
+      "contextTitle": "",
+      "contextContent": "",
+      "hints": []
+    }
+  ],
+  "teacherPreview": false
+};
+</script>
+
+<!-- SCREEN 1: SETUP -->
+<div id="setup-screen" class="screen active">
+  <div class="setup-card">
+    <div style="text-align:center">
+      <span class="lycee-badge" id="badge-institution"></span>
+      <h1 id="exam-title"></h1>
+      <p class="subtitle" id="exam-subtitle"></p>
+    </div>
+    <div class="field-row">
+      <div class="field"><label for="inp-nom">Nom</label><input type="text" id="inp-nom" placeholder="Votre nom" autocomplete="off" spellcheck="false"></div>
+      <div class="field"><label for="inp-prenom">Prénom</label><input type="text" id="inp-prenom" placeholder="Votre prénom" autocomplete="off" spellcheck="false"></div>
+    </div>
+    <div class="field"><label for="inp-classe">Classe</label>
+      <select id="inp-classe"><option value="">— Choisir votre classe —</option>
+        <option value="T.Spé.1">T. Spé. Maths 1</option>
+        <option value="T.Spé.2">T. Spé. Maths 2</option>
+        <option value="T.Spé.3">T. Spé. Maths 3</option>
+        <option value="T.Expertes">T. Maths Expertes</option>
+        <option value="Autre">Autre</option>
+      </select>
+    </div>
+    <div class="field"><label for="inp-password">Mot de passe du DS</label>
+      <div class="password-wrapper"><input type="password" id="inp-password" placeholder="Fourni par le professeur" autocomplete="off">
+        <button class="toggle-pw" onclick="togglePassword()" type="button" tabindex="-1">&#128065;</button>
+      </div>
+    </div>
+    <div class="field"><label>Dur&eacute;e du DS</label>
+      <div class="duration-display">1h50</div>
+    </div>
+    <button class="btn btn-primary" onclick="startExam()">Commencer le DS &rarr;</button>
+    <div class="error-msg" id="setup-error"></div>
+    <details class="consignes"><summary>&#x1F4CB; Consignes du DS</summary>
+      <ul>
+        <li>Pour chaque question, <strong>une seule réponse</strong> est correcte.</li>
+        <li>Bonne réponse : <strong>+1 point</strong> &middot; Mauvaise réponse : <strong>-0.25 point</strong> &middot; Pas de réponse : <strong>0 point</strong></li>
+        <li>Le QCM sera soumis automatiquement à la fin du temps imparti.</li>
+        <li><strong>Il est interdit de quitter cette page.</strong> Toute sortie entraînera un blocage immédiat.</li>
+        <li>Le copier-coller et le clic droit sont désactivés.</li>
+      </ul>
+    </details>
+  </div>
+</div>
+
+<!-- SCREEN 2: EXAM -->
+<div id="exam-screen" class="screen">
+  <div class="exam-header">
+    <div class="student-info" id="header-student"></div>
+    <div class="timer" id="header-timer">--:--</div>
+    <div class="q-counter" id="header-counter"></div>
+  </div>
+  <div class="exam-body" id="exam-body"></div>
+  <button class="btn btn-submit-main" id="btn-submit" onclick="confirmSubmit()" style="display:none">&#x2713; Soumettre le DS</button>
+  <div class="nav-bar">
+    <button class="btn btn-outline" id="btn-prev" onclick="navQuestion(-1)">&larr; Précédente</button>
+    <div class="q-grid" id="q-grid"></div>
+    <button class="btn btn-primary" id="btn-next" onclick="navQuestion(1)" style="width:auto">Suivante &rarr;</button>
+  </div>
+</div>
+
+<!-- SCREEN 3: END -->
+<div id="end-screen" class="screen">
+  <div class="end-card">
+    <div class="end-icon">&#x2705;</div>
+    <h2>Copie soumise avec succès</h2>
+    <p>Votre copie a été enregistrée et transmise au professeur.<br>Vous pouvez fermer cette page.</p>
+    <div class="end-info" id="end-info"></div>
+    <div id="send-status" style="margin-top:14px;font-size:.85rem;min-height:24px;font-weight:500"></div>
+    <div style="margin-top:18px">
+      <button class="btn btn-primary" onclick="downloadRevisionSheet()" style="padding:10px 24px;font-size:.88rem;width:auto;background:linear-gradient(135deg,#2563eb,#7c3aed);border:none;border-radius:8px;color:#fff;cursor:pointer;font-weight:600">&#127891; T&eacute;l&eacute;charger ma fiche de r&eacute;vision</button>
+    </div>
+
+    <!-- TEACHER PANEL -->
+    <div id="teacher-panel" style="margin-top:24px;text-align:center">
+      <div id="teacher-login" style="margin-top:12px">
+        <p style="font-size:.82rem;color:var(--text-light);margin-bottom:8px">Acc&egrave;s professeur</p>
+        <div style="display:flex;gap:8px;justify-content:center;align-items:center">
+          <input type="password" id="teacher-end-code" placeholder="Code professeur"
+            style="padding:8px 14px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:.88rem;font-family:'JetBrains Mono',monospace;text-align:center;width:180px" autocomplete="off">
+          <button class="btn btn-accent" onclick="unlockTeacherPanel()" style="padding:8px 16px;font-size:.82rem">Voir les résultats</button>
+        </div>
+        <div id="teacher-end-error" style="color:var(--accent);font-size:.8rem;margin-top:6px;min-height:18px"></div>
+      </div>
+      <div id="teacher-results" style="display:none;text-align:left;margin-top:16px">
+        <div style="background:var(--primary);color:#fff;padding:14px 18px;border-radius:var(--radius-sm) var(--radius-sm) 0 0">
+          <strong style="font-size:1rem" id="tr-title">Bilan</strong>
+        </div>
+        <div style="background:#fff;border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);padding:16px 18px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px" id="tr-summary"></div>
+          <div style="max-height:300px;overflow-y:auto" id="tr-details"></div>
+          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+            <button class="btn btn-primary" onclick="downloadResultsTxt()" style="padding:8px 18px;font-size:.82rem;width:auto">T&eacute;l&eacute;charger le bilan (.txt)</button>
+            <button class="btn btn-primary" onclick="downloadResultsCsv()" style="padding:8px 18px;font-size:.82rem;width:auto;background:var(--primary-light)">Exporter CSV</button>
+            <button class="btn btn-primary" onclick="downloadResultsJson()" style="padding:8px 18px;font-size:.82rem;width:auto;background:#1a7a42">Exporter JSON (Tableau de bord)</button>
+            <button class="btn btn-primary" onclick="copyResultsToClipboard()" style="padding:8px 18px;font-size:.82rem;width:auto;background:var(--text-mid)">Copier le bilan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM SUBMIT MODAL -->
+<div id="confirm-overlay">
+  <div class="confirm-card">
+    <div class="confirm-icon">&#x1F4DD;</div>
+    <h3>Confirmer la soumission</h3>
+    <p id="confirm-text"></p>
+    <div class="confirm-warning" id="confirm-warning"></div>
+    <div class="confirm-buttons">
+      <button class="btn btn-cancel" onclick="closeConfirm()">Annuler</button>
+      <button class="btn btn-confirm-submit" onclick="doSubmit()">Soumettre définitivement</button>
+    </div>
+  </div>
+</div>
+
+<!-- BLOCKED OVERLAY -->
+<div id="blocked-overlay">
+  <div class="blocked-icon">&#x26A0;&#xFE0F;</div>
+  <h2>Tentative de triche détectée</h2>
+  <p>Vous avez quitté la fenêtre d'examen.<br>Veuillez appeler le professeur pour continuer.</p>
+  <div class="violations-badge" id="violations-count"></div>
+  <input type="password" id="teacher-code-input" placeholder="Code professeur" autocomplete="off">
+  <button class="btn btn-accent" onclick="unlockExam()" style="margin-top:12px">Débloquer</button>
+  <div class="blocked-error" id="blocked-error"></div>
+</div>
+
+<script>
+// State
+let student={nom:'',prenom:'',classe:''};
+let duration=90;
+let timeLeft=0;
+let timerInterval=null;
+let currentQ=0;
+let answers={};
+let shuffledQuestions=[];
+let shuffledChoices={};
+let examStartTime=null;
+let examActive=false;
+let qTimerSeconds=0; // seconds per question (0=disabled)
+let qTimeLeft={}; // {questionIndex: secondsRemaining}
+let hintState={}; // {questionId: numberOfHintsRevealed}
+let qTimerInterval=null;
+let violations=0;
+let violationLog=[];
+let isBlocked=false;
+
+// Init
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('badge-institution').textContent=EXAM_DATA.institution;
+  document.getElementById('exam-title').textContent=EXAM_DATA.title;
+  document.getElementById('exam-subtitle').textContent=EXAM_DATA.subtitle+' — '+EXAM_DATA.year;
+  if(EXAM_DATA.teacherPreview){
+    document.title='[APERÇU PROF] '+document.title;
+    const banner=document.createElement('div');
+    banner.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#d4920a,#e6a817);color:#fff;text-align:center;padding:8px 16px;font-weight:700;font-size:.88rem;font-family:DM Sans,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.2)';
+    banner.innerHTML='MODE APERÇU PROFESSEUR — Pas d\'anti-triche • Timer informatif • Correction instantanée • <a href="#" onclick="startExam();return false" style="color:#fff;text-decoration:underline;margin-left:8px">Démarrer directement</a>';
+    document.body.prepend(banner);
+    document.body.style.paddingTop='40px';
+    // Auto-fill setup fields
+    document.getElementById('inp-nom').value='Professeur';
+    document.getElementById('inp-prenom').value='Aperçu';
+    var classeSelect=document.getElementById('inp-classe');
+    if(classeSelect.options.length>1)classeSelect.selectedIndex=1;
+    document.getElementById('inp-password').value=EXAM_DATA.password;
+  }
+  duration=EXAM_DATA.duration||90;
+  document.getElementById('inp-password').addEventListener('keydown',e=>{if(e.key==='Enter')startExam()});
+});
+
+function togglePassword(){
+  const inp=document.getElementById('inp-password');
+  inp.type=inp.type==='password'?'text':'password';
+}
+
+function startExam(){
+  const nom=document.getElementById('inp-nom').value.trim();
+  const prenom=document.getElementById('inp-prenom').value.trim();
+  const classe=document.getElementById('inp-classe').value;
+  const pw=document.getElementById('inp-password').value;
+  const err=document.getElementById('setup-error');
+  if(!EXAM_DATA.teacherPreview){
+    if(!nom||!prenom){err.textContent='Veuillez saisir votre nom et prénom.';return}
+    if(!classe){err.textContent='Veuillez choisir votre classe.';return}
+    if(pw!==EXAM_DATA.password){err.textContent='Mot de passe incorrect.';return}
+  }
+  student={nom:nom||'Professeur',prenom:prenom||'Aperçu',classe:classe||'PROF'};err.textContent='';
+  shuffleExam();
+  showScreen('exam-screen');
+  examStartTime=new Date();examActive=true;
+  renderExam();showQuestion(0);
+  timeLeft=duration*60;updateTimerDisplay();
+  timerInterval=setInterval(timerTick,1000);
+  // Init per-question timer
+  qTimerSeconds=Math.round((EXAM_DATA.tempsQuestion||0)*60);
+  if(qTimerSeconds>0){
+    for(let i=0;i<shuffledQuestions.length;i++) qTimeLeft[i]=qTimerSeconds;
+  }
+  document.getElementById('btn-submit').style.display='block';
+  if(!EXAM_DATA.teacherPreview){
+    requestFullscreen();
+    setTimeout(()=>activateAntiCheat(),1000);
+  }
+  if(EXAM_DATA.teacherPreview){
+    document.getElementById('header-timer').title='Timer informatif — pas de soumission automatique';
+  }
+}
+
+function shuffleExam(){
+  const qs=[...EXAM_DATA.questions];
+  shuffleArray(qs);
+  shuffledQuestions=qs;
+  shuffledQuestions.forEach(q=>{const sc=[...q.choices];shuffleArray(sc);shuffledChoices[q.id]=sc});
+}
+function shuffleArray(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}}
+
+function renderExam(){
+  document.getElementById('header-student').textContent=student.prenom+' '+student.nom+' — '+student.classe;
+  document.getElementById('header-counter').textContent='0 / '+shuffledQuestions.length;
+  const grid=document.getElementById('q-grid');grid.innerHTML='';
+  shuffledQuestions.forEach((q,i)=>{
+    const d=document.createElement('div');d.className='q-dot';d.textContent=i+1;
+    d.onclick=()=>showQuestion(i);grid.appendChild(d);
+  });
+}
+
+function showQuestion(idx){
+  if(idx<0||idx>=shuffledQuestions.length)return;
+  currentQ=idx;const q=shuffledQuestions[idx];const body=document.getElementById('exam-body');
+  let html='';
+  const answered=Object.keys(answers).length;
+  const pct=Math.round((answered/shuffledQuestions.length)*100);
+  html+='<div class="progress-bar"><div class="progress-fill" style="width:'+pct+'%"></div></div>';
+  if(q.contextTitle||q.contextContent){
+    html+='<div class="context-block">'+(q.contextTitle?'<div class="ctx-title">'+renderLatex(q.contextTitle)+'</div>':'')+'<div>'+renderLatex(q.contextContent||'')+'</div></div>';
+  }
+  const choices=shuffledChoices[q.id];const letters=['a','b','c','d','e'];
+  let qTimerHtml='';
+  if(qTimerSeconds>0){
+    const secs=qTimeLeft[idx]||0;
+    const tm=Math.floor(secs/60);const ts=secs%60;
+    const cls=secs<=0?'q-timer q-timer-expired':secs<=30?'q-timer q-timer-warning':'q-timer';
+    qTimerHtml='<span class="'+cls+'" id="q-timer-display">⏱ '+String(tm).padStart(2,'0')+':'+String(ts).padStart(2,'0')+'</span>';
+  }
+  html+='<div class="question-card"><div class="q-header-row"><span class="q-number">Question '+(idx+1)+' / '+shuffledQuestions.length+'</span>'+qTimerHtml+'</div><div class="q-text">'+renderLatex(q.text)+'</div><ul class="choices-list">';
+  choices.forEach((c,ci)=>{
+    const sel=answers[q.id]===c.key?' selected':'';
+    html+='<li class="choice-item'+sel+'" onclick="selectChoice('+q.id+',\''+c.key+'\',this)"><span class="choice-key">'+letters[ci]+'</span><span class="choice-text">'+renderLatex(c.text)+'</span></li>';
+  });
+  html+='</ul>';
+  // Hints
+  var hints=q.hints||[];
+  if(hints.length>0){
+    var revealed=hintState[q.id]||0;
+    html+='<div class="hint-zone" style="margin-top:12px;display:flex;flex-direction:column;gap:8px">';
+    for(var hi=0;hi<revealed;hi++){
+      html+='<div style="padding:10px 14px;background:#faf5ff;border-left:4px solid #7c3aed;border-radius:0 8px 8px 0;font-size:.88rem;line-height:1.5"><span style="font-weight:700;color:#7c3aed;font-size:.8rem">Indice '+(hi+1)+'</span><br>'+renderLatex(hints[hi])+'</div>';
+    }
+    if(revealed<hints.length){
+      html+='<button onclick="revealHint('+q.id+')" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#faf5ff;border:2px solid #c4b5fd;color:#7c3aed;border-radius:10px;cursor:pointer;font-size:.85rem;font-weight:600;font-family:inherit">&#x1F4A1; Indice '+(revealed+1)+'/'+hints.length+' <span style="font-size:.78rem;color:#a78bfa;margin-left:4px">(-0.5 pt)</span></button>';
+    }
+    html+='</div>';
+  }
+  html+='</div>';
+  body.innerHTML=html;
+  // Re-show feedback for already answered questions in teacher preview
+  if(EXAM_DATA.teacherPreview&&answers[q.id]){
+    const selectedEl=body.querySelector('.choice-item.selected');
+    if(selectedEl)showFeedback(q.id,answers[q.id],selectedEl);
+  }
+  updateNav();
+  startQTimer(idx);
+  body.scrollTop=0;window.scrollTo(0,0);
+}
+
+function startQTimer(idx){
+  if(qTimerInterval){clearInterval(qTimerInterval);qTimerInterval=null}
+  if(qTimerSeconds<=0)return;
+  qTimerInterval=setInterval(function(){
+    if(!examActive)return;
+    if(qTimeLeft[idx]===undefined)qTimeLeft[idx]=0;
+    if(qTimeLeft[idx]>0)qTimeLeft[idx]--;
+    updateQTimerDisplay(idx);
+  },1000);
+}
+
+function updateQTimerDisplay(idx){
+  const el=document.getElementById('q-timer-display');if(!el)return;
+  const secs=qTimeLeft[idx]||0;
+  const tm=Math.floor(secs/60);const ts=secs%60;
+  el.textContent='⏱ '+String(tm).padStart(2,'0')+':'+String(ts).padStart(2,'0');
+  el.className=secs<=0?'q-timer q-timer-expired':secs<=30?'q-timer q-timer-warning':'q-timer';
+}
+
+function revealHint(qId){
+  if(!hintState[qId])hintState[qId]=0;
+  var q=EXAM_DATA.questions.find(x=>x.id===qId);if(!q)return;
+  var hints=q.hints||[];
+  if(hintState[qId]>=hints.length)return;
+  hintState[qId]++;
+  showQuestion(currentQ);
+}
+
+function selectChoice(qId,key,el){
+  if(answers[qId]===key){delete answers[qId];el.classList.remove('selected');if(EXAM_DATA.teacherPreview)clearFeedback(el.parentElement)}
+  else{answers[qId]=key;el.parentElement.querySelectorAll('.choice-item').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');if(EXAM_DATA.teacherPreview)showFeedback(qId,key,el)}
+  updateNav();
+}
+
+function showFeedback(qId,key,el){
+  const q=EXAM_DATA.questions.find(x=>x.id===qId);if(!q)return;
+  const parent=el.parentElement;
+  clearFeedback(parent);
+  parent.querySelectorAll('.choice-item').forEach(c=>{
+    const cKey=c.getAttribute('onclick').match(/'([a-e])'/);if(!cKey)return;
+    if(cKey[1]===q.answer)c.style.borderColor='#1a7a42';
+  });
+  const isCorrect=key===q.answer;
+  el.style.background=isCorrect?'#e9f7ef':'#fff5f5';
+  el.style.borderColor=isCorrect?'#1a7a42':'#dc3545';
+  // Show explanation if exists
+  const existing=parent.parentElement.querySelector('.preview-feedback');if(existing)existing.remove();
+  let feedbackHtml='<div class="preview-feedback" style="margin-top:12px;padding:12px 16px;border-radius:8px;font-size:.88rem;'+(isCorrect?'background:#e9f7ef;border:1px solid #1a7a42':'background:#fff5f5;border:1px solid #dc3545')+'">';
+  feedbackHtml+=isCorrect?'<strong style="color:#1a7a42">✅ Bonne réponse !</strong>':'<strong style="color:#dc3545">❌ Mauvaise réponse.</strong> La bonne réponse est <strong>'+q.answer+'</strong>.';
+  if(q.explanation)feedbackHtml+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid '+(isCorrect?'#c3e6cb':'#f5c6cb')+'"><strong>Correction :</strong> '+renderLatex(q.explanation)+'</div>';
+  feedbackHtml+='</div>';
+  parent.parentElement.insertAdjacentHTML('beforeend',feedbackHtml);
+}
+
+function clearFeedback(parent){
+  parent.querySelectorAll('.choice-item').forEach(c=>{c.style.borderColor='';c.style.background=''});
+  const fb=parent.parentElement.querySelector('.preview-feedback');if(fb)fb.remove();
+}
+
+function navQuestion(dir){showQuestion(currentQ+dir)}
+
+function updateNav(){
+  const total=shuffledQuestions.length;const answered=Object.keys(answers).length;
+  document.getElementById('header-counter').textContent=answered+' / '+total+' répondues';
+  document.getElementById('btn-prev').style.opacity=currentQ===0?'.35':'1';
+  document.getElementById('btn-prev').style.pointerEvents=currentQ===0?'none':'auto';
+  const dots=document.querySelectorAll('.q-dot');
+  dots.forEach((d,i)=>{d.className='q-dot';if(i===currentQ)d.classList.add('current');if(answers[shuffledQuestions[i].id]!=null)d.classList.add('answered')});
+  const btn=document.getElementById('btn-next');
+  btn.textContent=currentQ===total-1?'Fin':'Suivante →';
+}
+
+function renderLatex(str){
+  if(!str)return'';
+  // Protect <pre> and <code> blocks from KaTeX processing
+  var codeBlocks=[];
+  var result=str.replace(/<pre[\s\S]*?<\/pre>/g,function(m){codeBlocks.push(m);return'%%CODE'+codeBlocks.length+'%%'});
+  result=result.replace(/<code class="inline-code">([\s\S]*?)<\/code>/g,function(m){codeBlocks.push(m);return'%%CODE'+codeBlocks.length+'%%'});
+  result=result.replace(/\$\$([\s\S]*?)\$\$/g,function(m,tex){
+    try{return katex.renderToString(tex.trim(),{displayMode:true,throwOnError:false,trust:true,strict:false})}catch(e){return m}
+  });
+  result=result.replace(/\$([^\$]*?)\$/g,function(m,tex){
+    try{return katex.renderToString(tex.trim(),{displayMode:false,throwOnError:false,trust:true,strict:false})}catch(e){return m}
+  });
+  // Restore code blocks
+  for(var i=0;i<codeBlocks.length;i++){result=result.replace('%%CODE'+(i+1)+'%%',codeBlocks[i])}
+  return result;
+}
+
+function timerTick(){timeLeft--;if(timeLeft<=0){clearInterval(timerInterval);if(qTimerInterval){clearInterval(qTimerInterval);qTimerInterval=null}if(!EXAM_DATA.teacherPreview)submitExam(true);else{timeLeft=0;updateTimerDisplay()}return}updateTimerDisplay()}
+function updateTimerDisplay(){
+  const m=Math.floor(timeLeft/60),s=timeLeft%60;
+  const el=document.getElementById('header-timer');
+  el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  el.className='timer';if(timeLeft<=300)el.classList.add('critical');else if(timeLeft<=600)el.classList.add('warning');
+}
+
+function requestFullscreen(){const el=document.documentElement;const r=el.requestFullscreen||el.webkitRequestFullscreen||el.msRequestFullscreen;if(r)r.call(el).catch(()=>{})}
+
+function activateAntiCheat(){
+  document.addEventListener('visibilitychange',onVis);
+  window.addEventListener('blur',onBlur);
+  document.addEventListener('fullscreenchange',onFS);
+  document.addEventListener('webkitfullscreenchange',onFS);
+  document.addEventListener('copy',prevent);
+  document.addEventListener('cut',prevent);
+  document.addEventListener('paste',prevent);
+  document.addEventListener('contextmenu',prevent);
+  document.addEventListener('selectstart',e=>{if(examActive)e.preventDefault()});
+  document.addEventListener('keydown',onKey);
+}
+function prevent(e){e.preventDefault()}
+function onVis(){if(!examActive||isBlocked)return;if(document.hidden)triggerViolation('Changement d\'onglet')}
+function onBlur(){if(!examActive||isBlocked)return;setTimeout(()=>{if(!document.hasFocus()&&examActive&&!isBlocked)triggerViolation('Perte de focus')},300)}
+function onFS(){if(!examActive||isBlocked)return;if(!document.fullscreenElement&&!document.webkitFullscreenElement)triggerViolation('Sortie plein écran')}
+function onKey(e){
+  if(!examActive)return;
+  if(e.ctrlKey&&['c','v','a','p','s','u'].includes(e.key.toLowerCase())){e.preventDefault()}
+  if(e.key==='F12'){e.preventDefault()}
+  if(e.ctrlKey&&e.shiftKey&&['i','j','c'].includes(e.key.toLowerCase())){e.preventDefault()}
+  if(e.key==='PrintScreen'){e.preventDefault()}
+}
+
+function triggerViolation(reason){
+  if(!examActive||isBlocked)return;
+  violations++;violationLog.push({time:new Date().toLocaleTimeString('fr-FR'),reason});
+  isBlocked=true;
+  const overlay=document.getElementById('blocked-overlay');
+  overlay.classList.add('active');
+  document.getElementById('violations-count').textContent='Infractions : '+violations;
+  document.getElementById('teacher-code-input').value='';
+  document.getElementById('blocked-error').textContent='';
+  setTimeout(()=>document.getElementById('teacher-code-input').focus(),100);
+}
+
+function unlockExam(){
+  const code=document.getElementById('teacher-code-input').value;
+  if(code===EXAM_DATA.teacherCode){
+    document.getElementById('blocked-overlay').classList.remove('active');
+    document.getElementById('blocked-error').textContent='';
+    isBlocked=false;
+    requestFullscreen();
+  }else{
+    document.getElementById('blocked-error').textContent='Code incorrect';
+  }
+}
+
+document.getElementById('teacher-code-input').addEventListener('keydown',e=>{if(e.key==='Enter')unlockExam()});
+
+function confirmSubmit(){
+  const answered=Object.keys(answers).length;const total=shuffledQuestions.length;const un=total-answered;
+  document.getElementById('confirm-text').textContent='Vous avez répondu à '+answered+' question(s) sur '+total+'.';
+  if(un>0){
+    document.getElementById('confirm-warning').textContent=un+' question(s) sans réponse (0 point chacune).';
+  }else{
+    document.getElementById('confirm-warning').textContent='Toutes les questions ont été répondues.';
+    document.getElementById('confirm-warning').style.color='var(--success)';
+  }
+  document.getElementById('confirm-overlay').classList.add('active');
+}
+function closeConfirm(){document.getElementById('confirm-overlay').classList.remove('active')}
+function doSubmit(){document.getElementById('confirm-overlay').classList.remove('active');submitExam(false)}
+
+function submitExam(auto){
+  examActive=false;isBlocked=false;clearInterval(timerInterval);if(qTimerInterval){clearInterval(qTimerInterval);qTimerInterval=null}
+  document.removeEventListener('visibilitychange',onVis);
+  window.removeEventListener('blur',onBlur);
+  if(document.exitFullscreen)document.exitFullscreen().catch(()=>{});
+  const results=calculateScore();
+  showScreen('end-screen');
+  document.getElementById('end-info').innerHTML='<strong>'+student.prenom+' '+student.nom+'</strong> — '+student.classe+'<br>Soumis le '+new Date().toLocaleDateString('fr-FR')+' à '+new Date().toLocaleTimeString('fr-FR')+'<br>'+(auto?'Soumission automatique (temps écoulé)':'Soumission manuelle')+'<br><span style="font-size:1.1rem;font-weight:700;color:var(--primary);margin-top:6px;display:inline-block">Note : '+results.noteSur20+' / 20</span>';
+  sendResults(results,auto);
+}
+
+function calculateScore(){
+  let score=0;const details=[];
+  EXAM_DATA.questions.forEach(q=>{
+    const sa=answers[q.id]||null;let pts=0,st='blank';
+    if(!sa){pts=EXAM_DATA.scoring.blank;st='blank'}
+    else if(sa===q.answer){pts=EXAM_DATA.scoring.correct;st='correct'}
+    else{pts=EXAM_DATA.scoring.wrong;st='wrong'}
+    score+=pts;details.push({id:q.id,questionText:q.text||'',contextTitle:q.contextTitle||'',studentAnswer:sa,correctAnswer:q.answer,points:pts,status:st});
+  });
+  // Hint penalty: -0.5 per hint used
+  let totalHints=0;
+  Object.values(hintState).forEach(function(n){totalHints+=n});
+  const hintPenalty=totalHints*0.5;
+  const finalScore=Math.max(0,score-hintPenalty);
+  const noteSur20=EXAM_DATA.scoring.total>0?Math.round((finalScore/EXAM_DATA.scoring.total)*20*100)/100:0;
+  return{rawScore:score,finalScore,noteSur20,details,hintsUsed:totalHints,hintPenalty};
+}
+
+function sendResults(results,auto){
+  const end=new Date();const ms=end-examStartTime;
+  const dm=Math.floor(ms/60000),ds=Math.floor((ms%60000)/1000);
+  let correct=0,wrong=0,blank=0;
+  results.details.forEach(d=>{if(d.status==='correct')correct++;else if(d.status==='wrong')wrong++;else blank++});
+
+  let report='═'.repeat(35)+'\n';
+  report+='  RÉSULTATS DS — '+EXAM_DATA.title+'\n';
+  report+='  '+EXAM_DATA.institution+' — '+EXAM_DATA.year+'\n';
+  report+='═'.repeat(35)+'\n\n';
+  report+='Élève : '+student.prenom+' '+student.nom+'\nClasse : '+student.classe+'\n';
+  report+='Date : '+end.toLocaleDateString('fr-FR')+'\n';
+  report+='Début : '+examStartTime.toLocaleTimeString('fr-FR')+'\nFin : '+end.toLocaleTimeString('fr-FR')+'\n';
+  report+='Durée effective : '+dm+' min '+ds+' s\n';
+  report+='Soumission : '+(auto?'AUTOMATIQUE (temps écoulé)':'Manuelle')+'\n\n';
+  report+='Infractions anti-triche : '+violations+'\n';
+  violationLog.forEach((v,i)=>{report+='  '+(i+1)+'. ['+v.time+'] '+v.reason+'\n'});
+  report+='\nDétail des réponses :\n';
+  results.details.forEach(d=>{
+    const icon=d.status==='correct'?'✓':d.status==='wrong'?'✗':'–';
+    const pts=d.points>0?'+'+d.points:''+d.points;
+    report+='  Q'+String(d.id).padStart(2,' ')+' : '+icon+' Réponse: '+(d.studentAnswer||'—')+' | Correcte: '+d.correctAnswer+' | '+pts+' pt\n';
+  });
+  report+='\nBilan :\n';
+  report+='  Bonnes réponses : '+correct+' / '+EXAM_DATA.scoring.total+'\n';
+  report+='  Mauvaises réponses : '+wrong+'\n  Sans réponse : '+blank+'\n';
+  report+='  Score brut : '+results.rawScore+' / '+EXAM_DATA.scoring.total+'\n';
+  if(results.hintsUsed>0){report+='  Indices utilisés : '+results.hintsUsed+' (-'+results.hintPenalty+' pts)\n'}
+  report+='  NOTE FINALE : '+results.finalScore+' / '+EXAM_DATA.scoring.total+'\n';
+  report+='  NOTE SUR 20 : '+results.noteSur20+' / 20\n';
+
+  // Revision advice based on wrong/blank answers
+  var failedQuestions=results.details.filter(function(d){return d.status!=='correct'});
+  if(failedQuestions.length>0){
+    report+='\n'+'─'.repeat(35)+'\n';
+    report+='  CONSEILS DE RÉVISION\n';
+    report+='─'.repeat(35)+'\n\n';
+    // Group by context title
+    var topicMap={};
+    failedQuestions.forEach(function(d){
+      var topic=d.contextTitle||'Question '+d.id;
+      if(!topicMap[topic])topicMap[topic]=[];
+      topicMap[topic].push(d);
+    });
+    var topics=Object.keys(topicMap);
+    topics.forEach(function(topic){
+      var qs=topicMap[topic];
+      var qNums=qs.map(function(d){return 'Q'+d.id}).join(', ');
+      var nbWrong=qs.filter(function(d){return d.status==='wrong'}).length;
+      var nbBlank=qs.filter(function(d){return d.status==='blank'}).length;
+      report+='  ▶ '+topic+'\n';
+      report+='    Questions concernées : '+qNums+'\n';
+      if(nbWrong>0)report+='    Mauvaises réponses : '+nbWrong+'\n';
+      if(nbBlank>0)report+='    Sans réponse : '+nbBlank+'\n';
+      // Specific advice
+      var txt=(qs[0].questionText||'').toLowerCase();
+      if(txt.includes('probabilit')||txt.includes('p(a')||txt.includes('p_a'))report+='    → Revoir les règles de calcul des probabilités, probabilités conditionnelles et formule de Bayes\n';
+      else if(txt.includes('binomial')||txt.includes('bernoulli'))report+='    → Revoir la loi binomiale : paramètres, espérance, variance, calcul de P(X=k)\n';
+      else if(txt.includes('espérance')||txt.includes('variance')||txt.includes('écart'))report+='    → Revoir les calculs d\'espérance, variance et écart type d\'une variable aléatoire\n';
+      else if(txt.includes('suite')||txt.includes('récurren')||txt.includes('u_n')||txt.includes('u_{n'))report+='    → Revoir les suites numériques : suites arithmétiques, géométriques, récurrence\n';
+      else if(txt.includes('dérivé')||txt.includes('tangente'))report+='    → Revoir les techniques de dérivation et interprétation graphique\n';
+      else if(txt.includes('intégral')||txt.includes('primitive'))report+='    → Revoir le calcul intégral et les primitives\n';
+      else if(txt.includes('logarithm')||txt.includes('\\ln'))report+='    → Revoir les propriétés de la fonction logarithme\n';
+      else if(txt.includes('exponentiel'))report+='    → Revoir la fonction exponentielle et ses propriétés\n';
+      else if(txt.includes('indépendan'))report+='    → Revoir la notion d\'indépendance de deux événements\n';
+      else if(txt.includes('tchebychev')||txt.includes('bienaymé'))report+='    → Revoir l\'inégalité de Bienaymé-Tchebychev et la loi des grands nombres\n';
+      else report+='    → Revoir le cours correspondant à cette notion\n';
+      report+='\n';
+    });
+    if(results.noteSur20<8)report+='  ⚠ Note inférieure à 8/20 : un travail approfondi sur l\'ensemble du chapitre est recommandé.\n';
+    else if(results.noteSur20<12)report+='  ℹ Note entre 8 et 12/20 : cibler les notions ci-dessus pour progresser.\n';
+    else report+='  ✓ Bonne maîtrise globale. Quelques points à consolider sur les notions ci-dessus.\n';
+  } else {
+    report+='\n  ✓ Toutes les réponses sont correctes. Excellent travail !\n';
+  }
+
+  window._examReport=report;
+  window._examResults={subject:'[DS] '+EXAM_DATA.title+' — '+student.prenom+' '+student.nom+' ('+student.classe+')',body:report};
+  console.log('EXAM RESULTS:\n'+report);
+
+  // Store results globally for teacher panel
+  window._examPayload=null;
+
+  // Build detail string: Q1:a✓ Q2:c✗ Q3:—
+  let detailStr=results.details.map((d,i)=>{
+    const icon=d.status==='correct'?'✓':d.status==='wrong'?'✗':'—';
+    return 'Q'+(i+1)+':'+(d.studentAnswer||'-')+icon;
+  }).join(' ');
+
+  const pourcentage=EXAM_DATA.scoring.total>0?Math.round((results.finalScore/EXAM_DATA.scoring.total)*100):0;
+
+  const payload={
+    subject:'[DS] '+EXAM_DATA.title+' — '+student.prenom+' '+student.nom+' ('+student.classe+')',
+    nom:student.nom,prenom:student.prenom,classe:student.classe,
+    titreQCM:EXAM_DATA.title||'',
+    date:end.toLocaleDateString('fr-FR'),
+    heureDebut:examStartTime.toLocaleTimeString('fr-FR'),
+    heureFin:end.toLocaleTimeString('fr-FR'),
+    duree:dm+' min '+ds+' s',
+    soumission:auto?'AUTOMATIQUE':'Manuelle',
+    infractions:violations,infractionLog:violationLog,
+    correct,wrong,blank,
+    scoreBrut:results.rawScore,noteFinale:results.finalScore,noteSur20:results.noteSur20,
+    note:results.noteSur20,
+    bareme:20,
+    pourcentage:pourcentage,
+    detail:detailStr,
+    total:EXAM_DATA.scoring.total,details:results.details,report:report
+  };
+
+  const webhookUrls=(EXAM_DATA.webhookUrl||'').split('\n').map(u=>u.trim()).filter(u=>u.length>0);
+  if(webhookUrls.length>0){
+    const statusEl=document.getElementById('send-status');
+    statusEl.innerHTML='<span style="color:var(--warning)">&#x1F4E4; Envoi des résultats en cours...</span>';
+    const sends=webhookUrls.map(url=>fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}));
+    Promise.all(sends)
+    .then(()=>{statusEl.innerHTML='<span style="color:var(--success)">&#x2705; Résultats envoyés au professeur.</span>'})
+    .catch(err=>{console.error('Webhook error:',err);statusEl.innerHTML='<span style="color:var(--accent)">&#x26A0; Erreur d\'envoi. Les résultats sont sauvegardés localement.</span>'});
+  }
+
+  window._examPayload=payload;
+
+  try{const key='ds_'+student.nom+'_'+student.prenom+'_'+Date.now();localStorage.setItem(key,JSON.stringify(payload))}catch(e){}
+}
+
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+
+// ── Teacher Panel ──
+document.getElementById('teacher-end-code').addEventListener('keydown',function(e){if(e.key==='Enter')unlockTeacherPanel()});
+
+function unlockTeacherPanel(){
+  var code=document.getElementById('teacher-end-code').value;
+  if(code!==EXAM_DATA.teacherCode){
+    document.getElementById('teacher-end-error').textContent='Code incorrect';
+    return;
+  }
+  document.getElementById('teacher-end-error').textContent='';
+  document.getElementById('teacher-login').style.display='none';
+  document.getElementById('teacher-results').style.display='block';
+  renderTeacherResults();
+}
+
+function renderTeacherResults(){
+  var p=window._examPayload;
+  if(!p)return;
+
+  document.getElementById('tr-title').textContent='Bilan — '+p.prenom+' '+p.nom+' ('+p.classe+')';
+
+  // Summary boxes
+  var pct=p.total>0?Math.round((p.noteFinale/p.total)*100):0;
+  var color=pct>=50?'var(--success)':pct>=30?'var(--warning)':'var(--accent)';
+  document.getElementById('tr-summary').innerHTML=
+    '<div style="background:'+color+';color:#fff;padding:14px;border-radius:var(--radius-sm);text-align:center">'+
+      '<div style="font-size:1.6rem;font-weight:700">'+p.noteSur20+' / 20</div>'+
+      '<div style="font-size:.75rem;opacity:.85">Note sur 20</div>'+
+      '<div style="font-size:.72rem;opacity:.7;margin-top:2px">('+p.noteFinale+' / '+p.total+' pts)</div>'+
+    '</div>'+
+    '<div style="background:#f0f7f3;padding:14px;border-radius:var(--radius-sm);text-align:center;border:1px solid #c8e6d4">'+
+      '<div style="font-size:1.3rem;font-weight:700;color:var(--success)">'+p.correct+'</div>'+
+      '<div style="font-size:.75rem;color:var(--text-mid)">Bonnes</div>'+
+    '</div>'+
+    '<div style="background:#fef0f0;padding:14px;border-radius:var(--radius-sm);text-align:center;border:1px solid #f5c6c6">'+
+      '<div style="font-size:1.3rem;font-weight:700;color:var(--accent)">'+p.wrong+'</div>'+
+      '<div style="font-size:.75rem;color:var(--text-mid)">Mauvaises</div>'+
+    '</div>';
+
+  // Info line
+  var infoHtml='<div style="font-size:.8rem;color:var(--text-mid);margin-bottom:10px;padding:8px 10px;background:#f8f6f3;border-radius:6px">'+
+    'Durée : <strong>'+p.duree+'</strong> &middot; '+
+    'Soumission : <strong>'+p.soumission+'</strong> &middot; '+
+    'Infractions : <strong style="color:'+(p.infractions>0?'var(--accent)':'var(--success)')+'">'+p.infractions+'</strong>'+
+    '</div>';
+
+  // Details table with corrections
+  var tableHtml='<table style="width:100%;border-collapse:collapse;font-size:.82rem">'+
+    '<tr style="background:var(--hover)">'+
+      '<th style="padding:6px 8px;text-align:left;border-bottom:1px solid var(--border)">Q</th>'+
+      '<th style="padding:6px 8px;text-align:center;border-bottom:1px solid var(--border)">Réponse</th>'+
+      '<th style="padding:6px 8px;text-align:center;border-bottom:1px solid var(--border)">Correcte</th>'+
+      '<th style="padding:6px 8px;text-align:center;border-bottom:1px solid var(--border)">Points</th>'+
+    '</tr>';
+  p.details.forEach(function(d){
+    var bg=d.status==='correct'?'#f0f7f3':d.status==='wrong'?'#fef6f6':'#fafafa';
+    var icon=d.status==='correct'?'<span style="color:var(--success)">✓</span>':d.status==='wrong'?'<span style="color:var(--accent)">✗</span>':'<span style="color:var(--text-light)">–</span>';
+    var pts=d.points>0?'+'+d.points:''+d.points;
+    tableHtml+='<tr style="background:'+bg+'">'+
+      '<td style="padding:5px 8px;border-bottom:1px solid var(--border-light)">'+icon+' Q'+d.id+'</td>'+
+      '<td style="padding:5px 8px;text-align:center;border-bottom:1px solid var(--border-light);font-weight:600">'+(d.studentAnswer||'—')+'</td>'+
+      '<td style="padding:5px 8px;text-align:center;border-bottom:1px solid var(--border-light)">'+d.correctAnswer+'</td>'+
+      '<td style="padding:5px 8px;text-align:center;border-bottom:1px solid var(--border-light);font-weight:600">'+pts+'</td>'+
+    '</tr>';
+    // Show correction if exists and answer was wrong or blank
+    var q=EXAM_DATA.questions.find(function(x){return x.id===d.id});
+    if(q&&q.explanation){
+      var corrBg=d.status==='wrong'?'#fff5f5':'#f8fcf9';
+      tableHtml+='<tr style="background:'+corrBg+'">'+
+        '<td colspan="4" style="padding:6px 8px 10px 24px;border-bottom:1px solid var(--border-light);font-size:.8rem">'+
+          '<strong style="color:var(--success)">Correction :</strong> '+renderLatex(q.explanation)+
+        '</td></tr>';
+    }
+  });
+  tableHtml+='</table>';
+
+  // Revision advice section
+  var failed=p.details.filter(function(d){return d.status!=='correct'});
+  var adviceHtml='';
+  if(failed.length>0){
+    adviceHtml='<div style="margin-top:16px;padding:14px;background:#fff8f0;border:1px solid #f0d9b5;border-radius:8px">';
+    adviceHtml+='<h4 style="margin:0 0 10px;font-size:.92rem;color:#b45309">Conseils de révision</h4>';
+    // Group by context
+    var topicMap={};
+    failed.forEach(function(d){
+      var topic=d.contextTitle||'Question '+d.id;
+      if(!topicMap[topic])topicMap[topic]=[];
+      topicMap[topic].push(d);
+    });
+    Object.keys(topicMap).forEach(function(topic){
+      var qs=topicMap[topic];
+      var qNums=qs.map(function(d){return 'Q'+d.id}).join(', ');
+      var nbW=qs.filter(function(d){return d.status==='wrong'}).length;
+      var nbB=qs.filter(function(d){return d.status==='blank'}).length;
+      adviceHtml+='<div style="margin-bottom:8px;padding:6px 10px;background:#fff;border-radius:6px;border-left:3px solid #b45309">';
+      adviceHtml+='<strong style="color:#b45309">'+topic+'</strong>';
+      adviceHtml+='<span style="font-size:.78rem;color:#8b6914;margin-left:8px">('+qNums+')</span>';
+      if(nbW>0)adviceHtml+='<span style="font-size:.78rem;color:var(--accent);margin-left:8px">✗ '+nbW+' erreur(s)</span>';
+      if(nbB>0)adviceHtml+='<span style="font-size:.78rem;color:var(--text-light);margin-left:8px">– '+nbB+' non répondue(s)</span>';
+      // Topic-based advice
+      var txt=(qs[0].questionText||'').toLowerCase();
+      var advice='';
+      if(txt.includes('probabilit')||txt.includes('p(a')||txt.includes('p_a'))advice='Revoir les probabilités conditionnelles, la formule de Bayes et les probabilités totales';
+      else if(txt.includes('binomial')||txt.includes('bernoulli'))advice='Revoir la loi binomiale : paramètres, espérance E(X)=np, variance V(X)=npq';
+      else if(txt.includes('espérance')||txt.includes('variance')||txt.includes('écart'))advice='Revoir les calculs d\'espérance, variance et écart type';
+      else if(txt.includes('suite')||txt.includes('récurren')||txt.includes('u_n'))advice='Revoir les suites : arithmétiques, géométriques, sens de variation, limites';
+      else if(txt.includes('dériv')||txt.includes('tangente'))advice='Revoir les techniques de dérivation et l\'interprétation graphique';
+      else if(txt.includes('intégral')||txt.includes('primitive'))advice='Revoir le calcul intégral et les primitives';
+      else if(txt.includes('logarithm')||txt.includes('ln'))advice='Revoir les propriétés du logarithme népérien';
+      else if(txt.includes('exponentiel'))advice='Revoir la fonction exponentielle et ses propriétés';
+      else if(txt.includes('indépendan'))advice='Revoir la notion d\'indépendance de deux événements';
+      else if(txt.includes('tchebychev')||txt.includes('bienaymé'))advice='Revoir l\'inégalité de Bienaymé-Tchebychev et la loi des grands nombres';
+      else advice='Revoir le cours correspondant à cette notion';
+      adviceHtml+='<div style="font-size:.8rem;color:#6b5e00;margin-top:3px">→ '+advice+'</div>';
+      adviceHtml+='</div>';
+    });
+    // Global advice
+    if(p.noteSur20<8)adviceHtml+='<div style="margin-top:8px;padding:6px 10px;background:#fef0f0;border-radius:6px;font-size:.82rem;color:var(--accent)">⚠ Note inférieure à 8/20 : un travail approfondi sur l\'ensemble du chapitre est fortement recommandé.</div>';
+    else if(p.noteSur20<12)adviceHtml+='<div style="margin-top:8px;padding:6px 10px;background:#fff8e1;border-radius:6px;font-size:.82rem;color:#b45309">ℹ Note entre 8 et 12/20 : cibler les notions ci-dessus pour progresser.</div>';
+    else adviceHtml+='<div style="margin-top:8px;padding:6px 10px;background:#f0f7f3;border-radius:6px;font-size:.82rem;color:var(--success)">✓ Bonne maîtrise globale. Quelques points à consolider.</div>';
+    adviceHtml+='</div>';
+  }
+
+  document.getElementById('tr-details').innerHTML=infoHtml+tableHtml+adviceHtml;
+}
+
+function downloadResultsTxt(){
+  if(!window._examReport)return;
+  var blob=new Blob([window._examReport],{type:'text/plain;charset=utf-8'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='Bilan_'+student.nom+'_'+student.prenom+'_'+new Date().toISOString().slice(0,10)+'.txt';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+function downloadResultsCsv(){
+  var p=window._examPayload;if(!p)return;
+  var lines=['Question,Réponse élève,Réponse correcte,Statut,Points'];
+  p.details.forEach(function(d){
+    lines.push('Q'+d.id+','+(d.studentAnswer||'')+','+d.correctAnswer+','+d.status+','+d.points);
+  });
+  lines.push('');
+  lines.push('Élève,'+p.prenom+' '+p.nom);
+  lines.push('Classe,'+p.classe);
+  lines.push('Note,'+p.noteFinale+'/'+p.total);
+  lines.push('Note/20,'+p.noteSur20+'/20');
+  lines.push('Durée,'+p.duree);
+  lines.push('Infractions,'+p.infractions);
+  var blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='Résultats_'+student.nom+'_'+student.prenom+'_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+function downloadResultsJson(){
+  var p=window._examPayload;if(!p)return;
+  var exportData={
+    _type:'qcm_result',
+    _version:1,
+    titre:EXAM_DATA.title,
+    nom:p.nom,prenom:p.prenom,classe:p.classe,
+    date:p.date,heureDebut:p.heureDebut,heureFin:p.heureFin,
+    duree:p.duree,soumission:p.soumission,
+    infractions:p.infractions,infractionLog:p.infractionLog,
+    correct:p.correct,wrong:p.wrong,blank:p.blank,
+    scoreBrut:p.scoreBrut,noteFinale:p.noteFinale,noteSur20:p.noteSur20,total:p.total,
+    details:p.details,
+    exportDate:new Date().toISOString()
+  };
+  var blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json;charset=utf-8'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='DS_'+p.nom+'_'+p.prenom+'_'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+function copyResultsToClipboard(){
+  if(!window._examReport)return;
+  navigator.clipboard.writeText(window._examReport).then(function(){
+    var btn=event.target;btn.textContent='Copié !';
+    setTimeout(function(){btn.textContent='Copier le bilan'},2000);
+  }).catch(function(){});
+}
+
+history.pushState(null,null,location.href);window.addEventListener('popstate',()=>history.pushState(null,null,location.href));
+
+// ── Fiche de révision personnalisée ──
+function downloadRevisionSheet(){
+  var p=window._examPayload;if(!p)return;
+  var correct=[],wrong=[],blank=[];
+  p.details.forEach(function(d,i){
+    var q=EXAM_DATA.questions[i];
+    var item={num:i+1,text:q.text||'',explanation:q.explanation||'',contextTitle:q.contextTitle||'',contextContent:q.contextContent||'',answer:q.answer,studentAnswer:d.studentAnswer,choices:q.choices,status:d.status};
+    if(d.status==='correct')correct.push(item);
+    else if(d.status==='wrong')wrong.push(item);
+    else blank.push(item);
+  });
+
+  // Group wrong+blank by contextTitle
+  var topics={};
+  wrong.concat(blank).forEach(function(item){
+    var t=item.contextTitle||'Général';
+    if(!topics[t])topics[t]=[];
+    topics[t].push(item);
+  });
+
+  var letters=['a','b','c','d','e'];
+  var html='<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Fiche de révision</title>';
+  html+='<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"><\/script>';
+  html+='<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">';
+  html+='<style>';
+  html+='@page{size:A4;margin:15mm}*{margin:0;padding:0;box-sizing:border-box}';
+  html+='body{font-family:Segoe UI,Helvetica,Arial,sans-serif;font-size:10.5pt;line-height:1.55;color:#1a1a1a;padding:20px 28px}';
+  html+='.header{text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:3px solid #2563eb}';
+  html+='.header h1{font-size:17pt;color:#2563eb;margin-bottom:2px}';
+  html+='.header .info{font-size:10pt;color:#555}';
+  html+='.score-banner{display:flex;justify-content:center;gap:24px;margin:16px 0;padding:14px;background:linear-gradient(135deg,#eff6ff,#f0fdf4);border-radius:10px;border:1px solid #e2e8f0}';
+  html+='.score-item{text-align:center}.score-val{font-size:1.6rem;font-weight:800}.score-label{font-size:.75rem;color:#64748b}';
+  html+='.score-ok{color:#16a34a}.score-ko{color:#dc2626}.score-pct{color:#2563eb}';
+  html+='.section{margin-top:20px}.section h2{font-size:12pt;padding:8px 14px;border-radius:8px;margin-bottom:10px}';
+  html+='.section-ok h2{background:#dcfce7;color:#166534}.section-ko h2{background:#fee2e2;color:#991b1b}.section-topics h2{background:#dbeafe;color:#1e40af}';
+  html+='.mastered-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}';
+  html+='.mastered-chip{padding:4px 12px;background:#dcfce7;color:#166534;border-radius:16px;font-size:.82rem;font-weight:500}';
+  html+='.topic-group{margin-bottom:16px;page-break-inside:avoid;break-inside:avoid}';
+  html+='.topic-title{font-weight:700;font-size:10.5pt;color:#1e40af;margin-bottom:6px;padding:4px 0;border-bottom:1px solid #dbeafe}';
+  html+='.q-item{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:8px;page-break-inside:avoid}';
+  html+='.q-num{font-weight:700;color:#2563eb;font-size:.85rem}';
+  html+='.q-text-rev{margin:6px 0;font-size:10pt;line-height:1.5}';
+  html+='.q-answer{font-size:9.5pt;margin-top:6px}';
+  html+='.q-answer .yours{color:#dc2626;font-weight:600}.q-answer .correct{color:#16a34a;font-weight:600}';
+  html+='.q-expl{background:#fff8e1;border-left:3px solid #f0ad4e;padding:8px 12px;margin-top:8px;font-size:9.5pt;line-height:1.6;border-radius:0 6px 6px 0}';
+  html+='.advice{margin-top:20px;padding:16px;background:linear-gradient(135deg,#eff6ff,#ede9fe);border-radius:10px;border:1px solid #c7d2fe}';
+  html+='.advice h3{color:#4338ca;margin-bottom:8px;font-size:11pt}';
+  html+='.advice ul{margin-left:18px;font-size:10pt;line-height:1.7}';
+  html+='.code-block{background:#1e2d3d;color:#e6edf3;padding:10px 14px;border-radius:8px;font-family:Consolas,monospace;font-size:.82rem;line-height:1.6;overflow-x:auto;margin:6px 0;white-space:pre}';
+  html+='.code-block code{font-family:inherit;color:inherit;background:none;padding:0}';
+  html+='.inline-code{background:#eef1f5;color:#1e2d3d;padding:1px 5px;border-radius:3px;font-family:Consolas,monospace;font-size:.85em}';
+  html+='.print-btn{position:fixed;top:14px;right:14px;padding:10px 22px;font-size:12px;font-weight:600;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}';
+  html+='.print-btn:hover{background:#1d4ed8}@media print{.print-btn{display:none}}';
+  html+='.katex{font-size:1em!important}';
+  html+='</style></head><body>';
+  html+='<button class="print-btn" onclick="window.print()">&#x1F5A8; Imprimer / PDF</button>';
+
+  // Header
+  html+='<div class="header">';
+  html+='<h1>&#127891; Fiche de Révision Personnalisée</h1>';
+  html+='<div class="info"><strong>'+p.prenom+' '+p.nom+'</strong> — '+p.classe+'<br>'+EXAM_DATA.title+' — '+p.date+'</div>';
+  html+='</div>';
+
+  // Score banner
+  html+='<div class="score-banner">';
+  html+='<div class="score-item"><div class="score-val score-pct">'+p.noteSur20+'/20</div><div class="score-label">Note</div></div>';
+  html+='<div class="score-item"><div class="score-val score-ok">'+p.correct+'</div><div class="score-label">Correctes</div></div>';
+  html+='<div class="score-item"><div class="score-val score-ko">'+p.wrong+'</div><div class="score-label">Incorrectes</div></div>';
+  html+='<div class="score-item"><div class="score-val" style="color:#94a3b8">'+p.blank+'</div><div class="score-label">Sans réponse</div></div>';
+  html+='</div>';
+
+  // Mastered topics
+  if(correct.length>0){
+    var masteredTopics={};correct.forEach(function(c){var t=c.contextTitle||'Général';masteredTopics[t]=true});
+    html+='<div class="section section-ok"><h2>&#x2705; Points maîtrisés</h2>';
+    html+='<div class="mastered-list">';
+    Object.keys(masteredTopics).forEach(function(t){html+='<span class="mastered-chip">'+t+'</span>'});
+    html+='</div></div>';
+  }
+
+  // Topics to review
+  var topicKeys=Object.keys(topics);
+  if(topicKeys.length>0){
+    html+='<div class="section section-ko"><h2>&#x26A0; À retravailler ('+wrong.concat(blank).length+' question'+(wrong.concat(blank).length>1?'s':'')+')</h2>';
+    topicKeys.forEach(function(topic){
+      html+='<div class="topic-group"><div class="topic-title">'+topic+'</div>';
+      topics[topic].forEach(function(item){
+        html+='<div class="q-item">';
+        html+='<div class="q-num">Question '+item.num+'</div>';
+        html+='<div class="q-text-rev">'+item.text+'</div>';
+        html+='<div class="q-answer">';
+        if(item.studentAnswer){html+='Ta réponse : <span class="yours">'+item.studentAnswer.toUpperCase()+')</span> — '}
+        else{html+='<span class="yours">Pas de réponse</span> — '}
+        html+='Réponse correcte : <span class="correct">'+item.answer.toUpperCase()+')</span></div>';
+        if(item.explanation){html+='<div class="q-expl">'+item.explanation+'</div>'}
+        html+='</div>';
+      });
+      html+='</div>';
+    });
+    html+='</div>';
+  }
+
+  // Advice section
+  html+='<div class="advice"><h3>&#x1F3AF; Conseils pour progresser</h3><ul>';
+  if(p.noteSur20>=16)html+='<li>Excellent travail ! Continue à t\'entraîner pour maintenir ce niveau.</li>';
+  else if(p.noteSur20>=12)html+='<li>Bon résultat. Concentre-toi sur les questions ratées ci-dessus.</li>';
+  else if(p.noteSur20>=8)html+='<li>Des bases sont là, mais il faut revoir les notions marquées en rouge.</li>';
+  else html+='<li>Un travail approfondi sur le chapitre est nécessaire. Reprends le cours et les exemples.</li>';
+  if(blank.length>0)html+='<li>Tu as laissé '+blank.length+' question'+(blank.length>1?'s':'')+' sans réponse. Essaie toujours de répondre, même en éliminant les choix improbables.</li>';
+  if(wrong.length>0)html+='<li>Refais les '+wrong.length+' question'+(wrong.length>1?'s':'')+' ratée'+(wrong.length>1?'s':'')+' après avoir relu le cours.</li>';
+  html+='<li>Utilise le mode Entraînement pour t\'exercer sur les thèmes à retravailler.</li>';
+  html+='</ul></div>';
+
+  html+='<script>';
+  html+='function deHtml(s){return s.replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&")}';
+  html+='document.querySelectorAll(".q-text-rev,.q-expl,.q-answer,.mastered-chip,.topic-title").forEach(function(el){';
+  html+='var h=el.innerHTML;if(h.indexOf("$")===-1)return;';
+  html+='h=h.replace(/\\$\\$([\\s\\S]*?)\\$\\$/g,function(m,t){try{return katex.renderToString(deHtml(t.trim()),{displayMode:true,throwOnError:false})}catch(e){return m}});';
+  html+='h=h.replace(/\\$([^\\$]*?)\\$/g,function(m,t){try{return katex.renderToString(deHtml(t.trim()),{displayMode:false,throwOnError:false})}catch(e){return m}});';
+  html+='el.innerHTML=h;});';
+  html+='<\/script></body></html>';
+
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='Fiche_Revision_'+p.prenom+'_'+p.nom+'_'+p.date.replace(/\//g,'-')+'.html';
+  a.click();URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
